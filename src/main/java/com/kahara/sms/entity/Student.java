@@ -1,14 +1,9 @@
 package com.kahara.sms.entity;
 
-import java.sql.Date;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.sql.Date;
 
 @Entity
 @Table(name = "Student")
@@ -22,7 +17,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sid")
-    private long id;
+    private Long id;
 
     @Column(name = "first_name")
     private String firstName;
