@@ -11,4 +11,6 @@ public interface StudentService {
     // Read
     List<StudentDto> getAllStudents();
 
+    StudentDto getStudentById(Long id);
+
 }
