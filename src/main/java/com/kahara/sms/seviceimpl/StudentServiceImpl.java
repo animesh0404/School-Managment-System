@@ -26,8 +26,17 @@ public class StudentServiceImpl implements StudentService {
     public StudentDto getStudentById(Long id) {
         Optional<Student> studentOptional = studentRepository.findById(id);
         Student student = new Student();
-        if(studentOptional.isPresent())
-            student = studentOptional.get();
+        if (studentOptional.isPresent()) student = studentOptional.get();
+        return StudentHelper.entityToDto(student);
+    }
+
+    @Override
+    public StudentDto addStudent(StudentDto studentDto) {
+        Student student = new Student();
+        if (studentDto != null) {
+            student = StudentHelper.dtoToEntity(studentDto);
+            studentRepository.save(student);
+        }
         return StudentHelper.entityToDto(student);
     }
 

@@ -13,4 +13,6 @@ public interface StudentService {
 
     StudentDto getStudentById(Long id);
 
+    // Create
+    StudentDto addStudent(StudentDto student);
 }
