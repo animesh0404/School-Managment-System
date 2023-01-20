@@ -19,25 +19,27 @@ public class StudentController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<StudentDto>> getAllStudents() {
-        return new ResponseEntity<>(studentService.getAllStudents(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(studentService.getAllStudents(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StudentDto> getStudentById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(studentService.getStudentById(id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(studentService.getStudentById(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto studentDto) {
-        return new ResponseEntity<>(studentService.addStudent(studentDto),
-                HttpStatus.OK);
+        return new ResponseEntity<>(studentService.addStudent(studentDto), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StudentDto> updateStudent(@RequestBody StudentDto studentDto, @PathVariable("id") Long id) {
-        return new ResponseEntity<>(studentService.updateStudent(studentDto, id),
-                HttpStatus.OK);
+        return new ResponseEntity<>(studentService.updateStudent(studentDto, id), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<String> deleteStudent(@PathVariable("id") Long id) {
+        studentService.deleteStudent(id);
+        return new ResponseEntity<>("Student with id " + id.toString() + " deleted succesfully.", HttpStatus.OK);
     }
 }

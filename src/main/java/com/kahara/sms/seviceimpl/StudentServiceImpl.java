@@ -53,4 +53,9 @@ public class StudentServiceImpl implements StudentService {
         return StudentHelper.entityToDto(studentToSave);
     }
 
+    @Override
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+    }
+
 }
