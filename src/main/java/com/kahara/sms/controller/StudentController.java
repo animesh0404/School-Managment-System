@@ -29,10 +29,15 @@ public class StudentController {
                 HttpStatus.OK);
     }
 
-    @PostMapping(value = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<StudentDto> addStudent(@RequestBody StudentDto studentDto) {
         return new ResponseEntity<>(studentService.addStudent(studentDto),
                 HttpStatus.OK);
     }
 
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<StudentDto> updateStudent(@RequestBody StudentDto studentDto, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(studentService.updateStudent(studentDto, id),
+                HttpStatus.OK);
+    }
 }

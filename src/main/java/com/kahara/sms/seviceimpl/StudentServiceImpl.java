@@ -5,6 +5,7 @@ import com.kahara.sms.entity.Student;
 import com.kahara.sms.helper.StudentHelper;
 import com.kahara.sms.repo.StudentRepository;
 import com.kahara.sms.service.StudentService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,18 @@ public class StudentServiceImpl implements StudentService {
             studentRepository.save(student);
         }
         return StudentHelper.entityToDto(student);
+    }
+
+    @Override
+    public StudentDto updateStudent(StudentDto studentDto, Long id) {
+        Optional<Student> studentOptional = studentRepository.findById(id);
+        Student studentToSave = new Student();
+        if (studentOptional.isPresent()) {
+            BeanUtils.copyProperties(studentDto, studentToSave);
+            studentToSave.setId(id);
+            studentToSave = studentRepository.save(studentToSave);
+        }
+        return StudentHelper.entityToDto(studentToSave);
     }
 
 }
