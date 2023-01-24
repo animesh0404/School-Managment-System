@@ -2,6 +2,7 @@ package com.kahara.sms.seviceimpl;
 
 import com.kahara.sms.dto.StudentDto;
 import com.kahara.sms.entity.Student;
+import com.kahara.sms.exception.StudentNotFoundException;
 import com.kahara.sms.helper.StudentHelper;
 import com.kahara.sms.repo.StudentRepository;
 import com.kahara.sms.service.StudentService;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
+    public static final String NO_STUDENT_FOUND_WITH_ID = "No Student found with Id: ";
     @Autowired
     private StudentRepository studentRepository;
 
@@ -26,8 +28,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDto getStudentById(Long id) {
         Optional<Student> studentOptional = studentRepository.findById(id);
-        Student student = new Student();
-        if (studentOptional.isPresent()) student = studentOptional.get();
+        Student student = null;
+        if (studentOptional.isPresent())
+            student = studentOptional.get();
+        else
+            throw new StudentNotFoundException(NO_STUDENT_FOUND_WITH_ID + id);
         return StudentHelper.entityToDto(student);
     }
 
@@ -49,13 +54,17 @@ public class StudentServiceImpl implements StudentService {
             BeanUtils.copyProperties(studentDto, studentToSave);
             studentToSave.setId(id);
             studentToSave = studentRepository.save(studentToSave);
+        } else {
+            throw new StudentNotFoundException(NO_STUDENT_FOUND_WITH_ID + id);
         }
         return StudentHelper.entityToDto(studentToSave);
     }
 
     @Override
     public void deleteStudent(Long id) {
+        Optional<Student> studentOptional = studentRepository.findById(id);
+        if (studentOptional.isEmpty())
+            throw new StudentNotFoundException(NO_STUDENT_FOUND_WITH_ID + id);
         studentRepository.deleteById(id);
     }
-
 }
